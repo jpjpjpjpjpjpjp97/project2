@@ -11,7 +11,7 @@ public class Room {
 
     public Room() {
         this.roomId = 0;
-        this.name = "name";
+        this.name = "";
         this.administrator = null;
         this.roomMembers = new ArrayList<>();
     }

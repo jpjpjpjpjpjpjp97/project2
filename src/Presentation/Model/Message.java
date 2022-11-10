@@ -1,23 +1,40 @@
 package Presentation.Model;
 
+import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
-public class Message {
+public class Message implements Serializable {
+    private String type;
     private String text;
+    private int senderId;
+    private int receiverId;
     private LocalDateTime created;
     private boolean isReceived;
 
     public Message() {
+        this.type = "individual";
         this.text = "";
+        this.senderId = 0;
+        this.receiverId = 0;
         this.created = LocalDateTime.now();
         this.isReceived = false;
-
     }
 
-    public Message(String text, boolean isReceived) {
+    public Message(String type, String text, int senderId, int receiverId, boolean isReceived) {
+        this.type = type;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
         this.text = text;
         this.created = LocalDateTime.now();
         this.isReceived = isReceived;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getText() {
@@ -26,6 +43,22 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public int getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
+    }
+
+    public int getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(int receiverId) {
+        this.receiverId = receiverId;
     }
 
     public LocalDateTime getCreated() {

@@ -5,22 +5,27 @@ import java.util.List;
 
 public class User extends AbstractUser{
     private List<Contact> contactList;
+    private boolean online;
 
     public User() {
         this.contactList = new ArrayList<>();
+        this.online = false;
     }
 
-    public User(int id, String username, String password) {
-        super(id, username, password);
+    public User(int id, String username) {
+        super(id, username);
+        this.online = false;
     }
 
     public User(List<Contact> contactList) {
         this.contactList = contactList;
+        this.online = false;
     }
 
-    public User(int id, String username, String password, List<Contact> contactList) {
-        super(id, username, password);
+    public User(int id, String username, List<Contact> contactList) {
+        super(id, username);
         this.contactList = contactList;
+        this.online = false;
     }
 
     public List<Contact> getContactList() {
@@ -38,5 +43,13 @@ public class User extends AbstractUser{
 
     public void addContact(Contact contact){
         this.contactList.add(contact);
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 }
