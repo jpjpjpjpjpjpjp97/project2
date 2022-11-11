@@ -96,5 +96,55 @@ public class Client implements Runnable{
         return false;
     }
 
+    public boolean updateUser(int id , String name , String password) {
+        try {
+            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+            outputStream.writeUTF("updateUser");
+            outputStream.flush();
+            outputStream.writeUTF(String.valueOf(id));
+            outputStream.flush();
+            outputStream.writeUTF(name);
+            outputStream.flush();
+            outputStream.writeUTF(password);
+            outputStream.flush();
+
+            inputStream = new ObjectInputStream(clientSocket.getInputStream());
+            String receivedText = inputStream.readUTF();
+            System.out.format("Update: %s \n", receivedText);
+            outputStream.writeUTF("close");
+            outputStream.flush();
+            inputStream.close();
+            outputStream.close();
+            return true;
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+        return false;
+    }
+
+
+    public boolean deleteUser(int id) {
+        try {
+            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+            outputStream.writeUTF("deleteUser");
+            outputStream.flush();
+            outputStream.writeUTF(String.valueOf(id));
+            outputStream.flush();
+
+            inputStream = new ObjectInputStream(clientSocket.getInputStream());
+            String receivedText = inputStream.readUTF();
+            System.out.format("Delete: %s \n", receivedText);
+            outputStream.writeUTF("close");
+            outputStream.flush();
+            inputStream.close();
+            outputStream.close();
+            return true;
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+        return false;
+    }
 
 }
