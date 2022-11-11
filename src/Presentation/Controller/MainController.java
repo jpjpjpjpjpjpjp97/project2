@@ -16,4 +16,7 @@ public class MainController {
     public boolean authenticate(String testUsername, String testPassword) {
         return logic.authenticate(testUsername, testPassword);
     }
+    public boolean registerUser (String name , String password) {
+        return logic.registerUser(name , password);
+    }
 }

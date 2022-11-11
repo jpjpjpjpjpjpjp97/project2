@@ -1,6 +1,7 @@
 package Logic;
 
 import Presentation.Model.Message;
+import Presentation.Model.User;
 
 import java.io.*;
 import java.net.Socket;
@@ -42,6 +43,9 @@ public class Client implements Runnable{
     public boolean authenticate(String testUsername, String testPassword) {
         try {
             outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+            outputStream.writeUTF("authenticate");
+            outputStream.flush();
             outputStream.writeUTF(testUsername);
             outputStream.flush();
             outputStream.writeUTF(testPassword);
@@ -63,4 +67,26 @@ public class Client implements Runnable{
         }
         return false;
     }
+
+    public boolean registerUser(String name , String password) {
+        try {
+            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+            outputStream.writeUTF("registerUser");
+            outputStream.flush();
+            outputStream.writeUTF(name);
+            outputStream.flush();
+            outputStream.writeUTF(password);
+            outputStream.flush();
+
+
+            outputStream.close();
+            return true;
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+        return false;
+    }
+
+
 }
