@@ -59,6 +59,9 @@ public class Client implements Runnable{
                 outputStream.writeObject(message);
                 outputStream.flush();
             }
+            outputStream.writeUTF("stop");
+            outputStream.writeUTF("close");
+            outputStream.flush();
             inputStream.close();
             outputStream.close();
             return true;
@@ -79,7 +82,12 @@ public class Client implements Runnable{
             outputStream.writeUTF(password);
             outputStream.flush();
 
-
+            inputStream = new ObjectInputStream(clientSocket.getInputStream());
+            String receivedText = inputStream.readUTF();
+            System.out.format("Register: %s \n", receivedText);
+            outputStream.writeUTF("close");
+            outputStream.flush();
+            inputStream.close();
             outputStream.close();
             return true;
         } catch (IOException e) {

@@ -12,7 +12,7 @@ public class MainView {
 
         MainController mainController = new MainController();
         TimeUnit.SECONDS.sleep(1);
-        //mainController.authenticate(testUsername, testPassword);
-        mainController.registerUser("Julio" , "1234");
+//        mainController.authenticate(testUsername, testPassword);
+        mainController.registerUser("jdiaz" , "1234");
     }
 }
