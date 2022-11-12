@@ -1,6 +1,7 @@
 package Logic;
 
 import Data.Data;
+import Presentation.Model.Message;
 import Presentation.Model.User;
 
 import java.io.IOException;
@@ -38,6 +39,28 @@ public class Logic {
 
     public List<User> filterUsers(String username){
         return client.filterUsers(username);
+    }
+
+
+    //MESSAGES
+
+
+    public boolean addMessage(String text , int id_con) {
+        return client.addMessage(text, id_con);
+    }
+    public boolean updateMessage(int id , String text ,int id_con) {
+        return client.updateMessage(id,text, id_con);
+    }
+    public boolean deleteMessage(int id) {
+        return client.deleteMessage(id);
+    }
+
+    public List<Message> listMessages(){
+        return client.listMessages();
+    }
+
+    public List<Message> filterMessages(String text){
+        return client.filterMessages(text);
     }
 
     public void closeConnection(){

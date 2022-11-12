@@ -1,6 +1,7 @@
 package Presentation.Controller;
 
 import Logic.Logic;
+import Presentation.Model.Message;
 import Presentation.Model.User;
 
 import java.util.List;
@@ -40,6 +41,29 @@ public class MainController {
         return logic.deleteUser(id);
     }
 
+
+
+    //MESSAGES
+
+    public List<Message> listMessages(){
+        return logic.listMessages();
+    }
+
+    public List<Message> filterMessages(String text){
+        return logic.filterMessages(text);
+    }
+
+    public boolean addMessage (String text , int id_con) {
+        return logic.addMessage(text , id_con);
+    }
+
+    public boolean updateMessage (int id,String text , int id_con) {
+        return logic.updateMessage(id,text , id_con);
+    }
+
+    public boolean deleteMessage (int id) {
+        return logic.deleteMessage(id);
+    }
     public void closeConnection () {
         logic.closeConnection();
     }

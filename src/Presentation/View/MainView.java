@@ -13,12 +13,15 @@ public class MainView {
         MainController mainController = new MainController();
         TimeUnit.SECONDS.sleep(1);
 //        mainController.authenticate(testUsername, testPassword);
-//        mainController.registerUser("jdiaz" , "1234");
-//        mainController.registerUser("leosanpo16" , "1234");
-//        mainController.updateUser(1,"Jose" , "4321");
-//        mainController.deleteUser(1);
-        mainController.listUsers();
-        mainController.filterUsers("jdi");
+         //mainController.registerUser("jdiaz" , "1234");
+        //mainController.registerUser("leosanpo16" , "1234");
+     //  mainController.updateUser(1,"Jose" , "4321");
+          //mainController.deleteUser(2);
+
+        mainController.addMessage("Hola" , 1);
+      //  mainController.deleteMessage(1);
+      // mainController.listUsers();
+       // mainController.filterUsers("jdi");
         mainController.closeConnection();
     }
 }
