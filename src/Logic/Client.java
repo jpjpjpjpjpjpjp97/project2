@@ -1,11 +1,14 @@
 package Logic;
 
+import Data.Data;
 import Presentation.Model.Message;
 import Presentation.Model.User;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client implements Runnable{
     private static Socket clientSocket = null;
@@ -14,20 +17,19 @@ public class Client implements Runnable{
     private static ObjectOutputStream outputStream = null;
     private static BufferedInputStream bufferedInputStream = null;
     private static boolean closed = false;
+    private static Data data;
 
     int portNumber;
     String host;
 
-    Client(){
+    Client(Data data){
         this.portNumber = 8080;
         this.host = "localhost";
-
+        this.data = data;
         try{
             clientSocket = new Socket(host, portNumber);
-//            inputLine = new BufferedReader(new InputStreamReader(System.in));
-//            inputStream = new ObjectInputStream(clientSocket.getInputStream());
-//            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-
+            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+            inputStream = new ObjectInputStream(clientSocket.getInputStream());
         } catch (UnknownHostException e) {
             System.err.println("Unknown " + host);
         } catch (IOException e) {
@@ -42,8 +44,6 @@ public class Client implements Runnable{
 
     public boolean authenticate(String testUsername, String testPassword) {
         try {
-            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-
             outputStream.writeUTF("authenticate");
             outputStream.flush();
             outputStream.writeUTF(testUsername);
@@ -51,7 +51,6 @@ public class Client implements Runnable{
             outputStream.writeUTF(testPassword);
             outputStream.flush();
 
-            inputStream = new ObjectInputStream(clientSocket.getInputStream());
             String receivedText = inputStream.readUTF();
             System.out.format("Auth: %s \n", receivedText);
             Message message = new Message("individual", "Hello World!", 1, 2, false);
@@ -60,10 +59,6 @@ public class Client implements Runnable{
                 outputStream.flush();
             }
             outputStream.writeUTF("stop");
-            outputStream.writeUTF("close");
-            outputStream.flush();
-            inputStream.close();
-            outputStream.close();
             return true;
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
@@ -71,10 +66,45 @@ public class Client implements Runnable{
         return false;
     }
 
+    public List<User> listUsers() {
+        try {
+            outputStream.writeUTF("listUsers");
+            outputStream.flush();
+
+            ArrayList<User> userList = (ArrayList<User>) inputStream.readObject();
+            for (User user : userList) {
+                System.out.println(user.toString());
+            }
+            return userList;
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public List<User> filterUsers(String text) {
+        try {
+            outputStream.writeUTF("filterUsers");
+            outputStream.flush();
+            outputStream.writeUTF(text);
+            outputStream.flush();
+
+            ArrayList<User> filteredUserList = (ArrayList<User>) inputStream.readObject();
+            for (User user : filteredUserList) {
+                System.out.println(user.toString());
+            }
+            return filteredUserList;
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
     public boolean registerUser(String name , String password) {
         try {
-            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-
             outputStream.writeUTF("registerUser");
             outputStream.flush();
             outputStream.writeUTF(name);
@@ -82,13 +112,8 @@ public class Client implements Runnable{
             outputStream.writeUTF(password);
             outputStream.flush();
 
-            inputStream = new ObjectInputStream(clientSocket.getInputStream());
             String receivedText = inputStream.readUTF();
             System.out.format("Register: %s \n", receivedText);
-            outputStream.writeUTF("close");
-            outputStream.flush();
-            inputStream.close();
-            outputStream.close();
             return true;
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
@@ -98,8 +123,6 @@ public class Client implements Runnable{
 
     public boolean updateUser(int id , String name , String password) {
         try {
-            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-
             outputStream.writeUTF("updateUser");
             outputStream.flush();
             outputStream.writeUTF(String.valueOf(id));
@@ -109,13 +132,8 @@ public class Client implements Runnable{
             outputStream.writeUTF(password);
             outputStream.flush();
 
-            inputStream = new ObjectInputStream(clientSocket.getInputStream());
             String receivedText = inputStream.readUTF();
             System.out.format("Update: %s \n", receivedText);
-            outputStream.writeUTF("close");
-            outputStream.flush();
-            inputStream.close();
-            outputStream.close();
             return true;
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
@@ -123,23 +141,15 @@ public class Client implements Runnable{
         return false;
     }
 
-
     public boolean deleteUser(int id) {
         try {
-            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-
             outputStream.writeUTF("deleteUser");
             outputStream.flush();
             outputStream.writeUTF(String.valueOf(id));
             outputStream.flush();
 
-            inputStream = new ObjectInputStream(clientSocket.getInputStream());
             String receivedText = inputStream.readUTF();
             System.out.format("Delete: %s \n", receivedText);
-            outputStream.writeUTF("close");
-            outputStream.flush();
-            inputStream.close();
-            outputStream.close();
             return true;
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
@@ -147,4 +157,32 @@ public class Client implements Runnable{
         return false;
     }
 
+    public List<Message> getPendingMessages(int userId) {
+        try {
+            outputStream.writeUTF("pendingMessages");
+            outputStream.flush();
+
+            ArrayList<Message> pendingMessages = (ArrayList<Message>) inputStream.readObject();
+            for (Message newMessage : pendingMessages) {
+                System.out.println(newMessage.toString());
+            }
+            return pendingMessages;
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void closeConnection(){
+        try {
+            outputStream.writeUTF("close");
+            outputStream.flush();
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+    }
 }

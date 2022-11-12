@@ -17,6 +17,11 @@ public class User extends AbstractUser{
         this.online = false;
     }
 
+    public User(int id, String username, boolean online) {
+        super(id, username);
+        this.online = online;
+    }
+
     public User(List<Contact> contactList) {
         this.contactList = contactList;
         this.online = false;
@@ -51,5 +56,14 @@ public class User extends AbstractUser{
 
     public void setOnline(boolean online) {
         this.online = online;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + this.getId() +
+                "username=" + this.getUsername() +
+                ", online=" + online +
+                '}';
     }
 }

@@ -1,6 +1,9 @@
 package Presentation.Controller;
 
 import Logic.Logic;
+import Presentation.Model.User;
+
+import java.util.List;
 
 public class MainController {
     private Logic logic;
@@ -16,6 +19,15 @@ public class MainController {
     public boolean authenticate(String testUsername, String testPassword) {
         return logic.authenticate(testUsername, testPassword);
     }
+
+    public List<User> listUsers(){
+        return logic.listUsers();
+    }
+
+    public List<User> filterUsers(String username){
+        return logic.filterUsers(username);
+    }
+
     public boolean registerUser (String name , String password) {
         return logic.registerUser(name , password);
     }
@@ -26,5 +38,9 @@ public class MainController {
 
     public boolean deleteUser (int id) {
         return logic.deleteUser(id);
+    }
+
+    public void closeConnection () {
+        logic.closeConnection();
     }
 }

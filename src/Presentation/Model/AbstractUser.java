@@ -1,6 +1,8 @@
 package Presentation.Model;
 
-public class AbstractUser {
+import java.io.Serializable;
+
+public class AbstractUser  implements Serializable {
     private int id;
     private String username;
 
