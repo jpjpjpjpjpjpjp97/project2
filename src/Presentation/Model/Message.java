@@ -1,14 +1,18 @@
 package Presentation.Model;
 
 import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 public class Message implements Serializable {
     private String type;
+
+    private int id;
+
+    private int conversation_id;
     private String text;
     private int senderId;
     private int receiverId;
-    private LocalDateTime created;
+    private Timestamp created;
     private boolean isReceived;
 
     public Message() {
@@ -16,7 +20,7 @@ public class Message implements Serializable {
         this.text = "";
         this.senderId = 0;
         this.receiverId = 0;
-        this.created = LocalDateTime.now();
+        this.created = Timestamp.valueOf(LocalDateTime.now());
         this.isReceived = false;
     }
 
@@ -25,8 +29,16 @@ public class Message implements Serializable {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.text = text;
-        this.created = LocalDateTime.now();
+        this.created = Timestamp.valueOf(LocalDateTime.now());
         this.isReceived = isReceived;
+    }
+
+    public Message(int id, String text, int conversation_id, Timestamp created) {
+
+        this.id = id;
+        this.text = text;
+        this.conversation_id = conversation_id;
+        this.created = created;
     }
 
     public String getType() {
@@ -61,11 +73,11 @@ public class Message implements Serializable {
         this.receiverId = receiverId;
     }
 
-    public LocalDateTime getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 

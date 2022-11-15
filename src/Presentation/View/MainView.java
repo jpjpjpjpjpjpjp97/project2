@@ -18,9 +18,13 @@ public class MainView {
      //  mainController.updateUser(1,"Jose" , "4321");
           //mainController.deleteUser(2);
 
-        mainController.addMessage("Hola" , 1);
-      //  mainController.deleteMessage(1);
-      // mainController.listUsers();
+//        mainController.addMessage("Hola" , 1);
+//        mainController.addMessage("Hola" , 2);
+//        mainController.addMessage("2134" , 1);
+//        mainController.addMessage("1234" , 2);
+        mainController.listMessages();
+       //  mainController.deleteMessage(1);
+       // mainController.listUsers();
        // mainController.filterUsers("jdi");
         mainController.closeConnection();
     }
