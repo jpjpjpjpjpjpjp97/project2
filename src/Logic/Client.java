@@ -39,31 +39,25 @@ public class Client implements Runnable{
 
     @Override
     public void run() {
-
+        System.out.println("Executing running method...");
     }
 
-    public boolean authenticate(String testUsername, String testPassword) {
+    public int authenticate(String username, String password) {
         try {
             outputStream.writeUTF("authenticate");
             outputStream.flush();
-            outputStream.writeUTF(testUsername);
+            outputStream.writeUTF(username);
             outputStream.flush();
-            outputStream.writeUTF(testPassword);
+            outputStream.writeUTF(password);
             outputStream.flush();
 
-            String receivedText = inputStream.readUTF();
-            System.out.format("Auth: %s \n", receivedText);
-            Message message = new Message("individual", "Hello World!", 1, 2, false);
-            if (receivedText.equals("Successfully Authenticated")) {
-                outputStream.writeObject(message);
-                outputStream.flush();
-            }
-            outputStream.writeUTF("stop");
-            return true;
+            int receivedId = inputStream.readInt();
+            System.out.format("Authenticated Id: %s \n", receivedId);
+            return receivedId;
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
         }
-        return false;
+        return 0;
     }
 
     public List<User> listUsers() {
@@ -104,7 +98,7 @@ public class Client implements Runnable{
         }
         return null;
     }
-    public boolean registerUser(String name , String password) {
+    public int registerUser(String name , String password) {
         try {
             outputStream.writeUTF("registerUser");
             outputStream.flush();
@@ -113,13 +107,13 @@ public class Client implements Runnable{
             outputStream.writeUTF(password);
             outputStream.flush();
 
-            String receivedText = inputStream.readUTF();
-            System.out.format("Register: %s \n", receivedText);
-            return true;
+            int userId = inputStream.readInt();
+            System.out.format("Registered Id: %s \n", userId);
+            return userId;
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
         }
-        return false;
+        return 0;
     }
 
     public boolean updateUser(int id , String name , String password) {
@@ -158,8 +152,6 @@ public class Client implements Runnable{
         return false;
     }
 
-
-
     public List<Message> getPendingMessages(int userId) {
         try {
             outputStream.writeUTF("pendingMessages");
@@ -178,13 +170,7 @@ public class Client implements Runnable{
         return null;
     }
 
-
-
-
-
     //MESSAGE
-
-
     public List<Message> listMessages() {
         try {
             outputStream.writeUTF("listMessages");
@@ -223,13 +209,12 @@ public class Client implements Runnable{
         return null;
     }
 
-    public boolean addMessage(String text , int id_conversation) {
+    public boolean addMessage(String type, String text, int senderId, int receiverId) {
         try {
+            Message newMessage = new Message(type, text, senderId, receiverId, false);
             outputStream.writeUTF("addMessage");
             outputStream.flush();
-            outputStream.writeUTF(text);
-            outputStream.flush();
-            outputStream.writeUTF(String.valueOf(id_conversation));
+            outputStream.writeObject(newMessage);
             outputStream.flush();
 
             String receivedText = inputStream.readUTF();
@@ -277,9 +262,24 @@ public class Client implements Runnable{
         return false;
     }
 
+    public List<Message> getNewMessages(int receiverId) {
+        ArrayList<Message> messageList = new ArrayList<>();
+        try {
+            outputStream.writeUTF("getNewMessages");
+            outputStream.flush();
+            outputStream.writeInt(receiverId);
+            outputStream.flush();
 
-
-
+            messageList = (ArrayList<Message>) inputStream.readObject();
+            for (Message newMessage : messageList) {
+                System.out.println(newMessage.toString());
+            }
+            return messageList;
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+        return messageList;
+    }
 
     public void closeConnection(){
         try {
@@ -291,4 +291,5 @@ public class Client implements Runnable{
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
         }
     }
+
 }

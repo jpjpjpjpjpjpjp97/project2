@@ -4,7 +4,6 @@ import Data.Data;
 import Presentation.Model.Message;
 import Presentation.Model.User;
 
-import java.io.IOException;
 import java.util.List;
 
 public class Logic {
@@ -20,10 +19,10 @@ public class Logic {
         this.client = client;
     }
 
-    public boolean authenticate(String testUsername, String testPassword) {
-        return client.authenticate(testUsername, testPassword);
+    public int authenticate(String username, String password) {
+        return client.authenticate(username, password);
     }
-    public boolean registerUser(String name , String password) {
+    public int registerUser(String name , String password) {
         return client.registerUser(name, password);
     }
     public boolean updateUser(int id , String name , String password) {
@@ -43,10 +42,8 @@ public class Logic {
 
 
     //MESSAGES
-
-
-    public boolean addMessage(String text , int id_con) {
-        return client.addMessage(text, id_con);
+    public boolean addMessage(String type, String text, int senderId, int receiverId) {
+        return client.addMessage(type, text, senderId, receiverId);
     }
     public boolean updateMessage(int id , String text ,int id_con) {
         return client.updateMessage(id,text, id_con);
@@ -61,6 +58,10 @@ public class Logic {
 
     public List<Message> filterMessages(String text){
         return client.filterMessages(text);
+    }
+
+    public List<Message> getNewMessages(int receiverId) {
+        return client.getNewMessages(receiverId);
     }
 
     public void closeConnection(){

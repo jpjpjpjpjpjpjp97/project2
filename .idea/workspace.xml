@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87d5b3f3-9361-42bb-b00c-c983804bec3c" name="Changes" comment="Add/&#10;List and Filter users">
-      <change afterPath="$PROJECT_DIR$/src/Data/JSONSerializer.java" afterDir="false" />
+    <list default="true" id="87d5b3f3-9361-42bb-b00c-c983804bec3c" name="Changes" comment="Add/&#10;Register and Authenticate functions&#10;LoginWindow and MainWindow&#10;Get new messages every 5 seconds">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Presentation/View/LoginWindow.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Presentation/View/LoginWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Presentation/View/MainWindow.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Presentation/View/MainWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Logic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Logic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presentation/Controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presentation/Controller/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presentation/Model/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presentation/Model/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presentation/View/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presentation/View/MainView.java" afterDir="false" />
     </list>
@@ -45,13 +52,15 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.group.build"
   }
 }]]></component>
   <component name="RunManager">
-    <configuration name="MainView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="MainView" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Presentation.View.MainView" />
       <module name="project2" />
       <extension name="coverage">
@@ -133,17 +142,7 @@
     <MESSAGE value="Add sockets to communicate with server" />
     <MESSAGE value="Fix/&#10;client connection fixes" />
     <MESSAGE value="Add/&#10;List and Filter users" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add/&#10;List and Filter users" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Logic/Client.java</url>
-          <line>192</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Add/&#10;Register and Authenticate functions&#10;LoginWindow and MainWindow&#10;Get new messages every 5 seconds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add/&#10;Register and Authenticate functions&#10;LoginWindow and MainWindow&#10;Get new messages every 5 seconds" />
   </component>
 </project>

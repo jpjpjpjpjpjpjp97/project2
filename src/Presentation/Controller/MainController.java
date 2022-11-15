@@ -3,11 +3,18 @@ package Presentation.Controller;
 import Logic.Logic;
 import Presentation.Model.Message;
 import Presentation.Model.User;
+import Presentation.View.LoginWindow;
+import Presentation.View.MainWindow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
     private Logic logic;
+    private MainWindow mainWindow;
+    private LoginWindow loginWindow;
+    private int userId;
+    private String username;
 
     public MainController() {
         this.logic = new Logic();
@@ -17,8 +24,12 @@ public class MainController {
         this.logic = logic;
     }
 
-    public boolean authenticate(String testUsername, String testPassword) {
-        return logic.authenticate(testUsername, testPassword);
+    public boolean authenticate(String username, String password) {
+        this.userId = logic.authenticate(username, password);
+        if (this.userId != 0){
+            this.username = username;
+        }
+        return (this.userId != 0);
     }
 
     public List<User> listUsers(){
@@ -29,7 +40,7 @@ public class MainController {
         return logic.filterUsers(username);
     }
 
-    public boolean registerUser (String name , String password) {
+    public int registerUser (String name , String password) {
         return logic.registerUser(name , password);
     }
 
@@ -41,10 +52,7 @@ public class MainController {
         return logic.deleteUser(id);
     }
 
-
-
     //MESSAGES
-
     public List<Message> listMessages(){
         return logic.listMessages();
     }
@@ -53,8 +61,12 @@ public class MainController {
         return logic.filterMessages(text);
     }
 
-    public boolean addMessage (String text , int id_con) {
-        return logic.addMessage(text , id_con);
+    public List<Message> getNewMessages(int receiverId){
+        return logic.getNewMessages(receiverId);
+    }
+
+    public boolean addMessage (String type, String text, int senderId, int receiverId) {
+        return logic.addMessage(type, text ,senderId, receiverId);
     }
 
     public boolean updateMessage (int id,String text , int id_con) {
@@ -67,4 +79,76 @@ public class MainController {
     public void closeConnection () {
         logic.closeConnection();
     }
+
+    public void checkForMessages() throws InterruptedException {
+        ArrayList<Message> messagesList = new ArrayList<>();
+        System.out.println("Checking for new messages...");
+        messagesList.clear();
+        messagesList = (ArrayList<Message>) this.getNewMessages(this.userId);
+        for (Message message : messagesList) {
+            message.toString();
+        }
+    }
+
+    public void startMainWindow() throws InterruptedException {
+        this.mainWindow = new MainWindow(this);
+        mainWindow.setTitle("Usuario: " + this.username);
+        mainWindow.setLocationRelativeTo(null);
+        mainWindow.setVisible(true);
+    }
+
+    public void startLoginWindow() {
+        this.loginWindow = new LoginWindow(this);
+        loginWindow.setTitle("Chat: Registro e Inicio de Sesión");
+        loginWindow.setLocationRelativeTo(null);
+        loginWindow.setVisible(true);
+    }
+
+    public void closeLoginWindow() throws InterruptedException {
+        this.loginWindow.dispose();
+        if (this.getUserId() != 0){
+            this.startMainWindow();
+        }
+    }
+
+    public Logic getLogic() {
+        return logic;
+    }
+
+    public void setLogic(Logic logic) {
+        this.logic = logic;
+    }
+
+    public MainWindow getMainWindow() {
+        return mainWindow;
+    }
+
+    public void setMainWindow(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+    }
+
+    public LoginWindow getLoginWindow() {
+        return loginWindow;
+    }
+
+    public void setLoginWindow(LoginWindow loginWindow) {
+        this.loginWindow = loginWindow;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }

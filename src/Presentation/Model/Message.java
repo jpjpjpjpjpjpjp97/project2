@@ -5,10 +5,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 public class Message implements Serializable {
     private String type;
-
     private int id;
-
-    private int conversation_id;
     private String text;
     private int senderId;
     private int receiverId;
@@ -33,12 +30,14 @@ public class Message implements Serializable {
         this.isReceived = isReceived;
     }
 
-    public Message(int id, String text, int conversation_id, Timestamp created) {
-
+    public Message(String type, int id, String text, int senderId, int receiverId, Timestamp created, boolean isReceived) {
+        this.type = type;
         this.id = id;
         this.text = text;
-        this.conversation_id = conversation_id;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
         this.created = created;
+        this.isReceived = isReceived;
     }
 
     public String getType() {
