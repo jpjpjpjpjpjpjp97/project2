@@ -11,7 +11,17 @@ public class MainWindow extends JFrame {
     private JTextField messageTextField;
     private JButton sendMessageButton;
     private JList list1;
+
+    private JTextArea messagesTextArea;
     private Timer checkMessagesTimer;
+
+    public JTextArea getPendingMessagesArea() {
+        return messagesTextArea;
+    }
+
+    public void setPendingMessagesArea(JTextArea pendingMessagesArea) {
+        this.messagesTextArea = pendingMessagesArea;
+    }
 
     public MainWindow(MainController mainController) throws InterruptedException {
         this.mainController = mainController;
@@ -35,6 +45,9 @@ public class MainWindow extends JFrame {
                 mainController.addMessage("individual", messageTextField.getText(), 1, 2);
             }
         });
+
+
+
          checkMessagesTimer = new Timer(5000, event -> {
             try {
                 MainWindow.this.mainController.checkForMessages();
@@ -43,5 +56,7 @@ public class MainWindow extends JFrame {
             }
         });
         checkMessagesTimer.start();
+
+
     }
 }

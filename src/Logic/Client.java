@@ -154,7 +154,9 @@ public class Client implements Runnable{
 
     public List<Message> getPendingMessages(int userId) {
         try {
-            outputStream.writeUTF("pendingMessages");
+            outputStream.writeUTF("PendingMessages");
+            outputStream.flush();
+            outputStream.writeInt(userId);
             outputStream.flush();
 
             ArrayList<Message> pendingMessages = (ArrayList<Message>) inputStream.readObject();
@@ -212,6 +214,7 @@ public class Client implements Runnable{
     public boolean addMessage(String type, String text, int senderId, int receiverId) {
         try {
             Message newMessage = new Message(type, text, senderId, receiverId, false);
+
             outputStream.writeUTF("addMessage");
             outputStream.flush();
             outputStream.writeObject(newMessage);
@@ -225,6 +228,9 @@ public class Client implements Runnable{
         }
         return false;
     }
+
+
+
 
     public boolean updateMessage(int id , String text , int id_conversation) {
         try {

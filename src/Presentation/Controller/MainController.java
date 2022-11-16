@@ -65,6 +65,10 @@ public class MainController {
         return logic.getNewMessages(receiverId);
     }
 
+    public List<Message> getPendingMessages(int userId){
+        return logic.getPendingMessages(userId);
+    }
+
     public boolean addMessage (String type, String text, int senderId, int receiverId) {
         return logic.addMessage(type, text ,senderId, receiverId);
     }
@@ -95,6 +99,8 @@ public class MainController {
         mainWindow.setTitle("Usuario: " + this.username);
         mainWindow.setLocationRelativeTo(null);
         mainWindow.setVisible(true);
+        mainWindow.getPendingMessagesArea().setText(getPendingMessages(2).toString());
+
     }
 
     public void startLoginWindow() {
@@ -108,6 +114,7 @@ public class MainController {
         this.loginWindow.dispose();
         if (this.getUserId() != 0){
             this.startMainWindow();
+
         }
     }
 

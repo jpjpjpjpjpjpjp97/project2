@@ -64,6 +64,10 @@ public class Logic {
         return client.getNewMessages(receiverId);
     }
 
+    public List<Message> getPendingMessages(int userId) {
+        return client.getPendingMessages(userId);
+    }
+
     public void closeConnection(){
         client.closeConnection();
     }

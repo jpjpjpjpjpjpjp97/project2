@@ -90,10 +90,7 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "text='" + text + '\'' +
-                ", created=" + created +
-                ", isReceived=" + isReceived +
-                '}';
+        return "Message{" + "text='" + text + '\'' + ", created=" + created + ", isReceived=" + isReceived + '}';
+
     }
 }
