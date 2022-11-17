@@ -47,6 +47,8 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainController.addMessage("individual", messageTextField.getText(), 1, 2);
+                mainController.showMessages();
+                messageTextField.setText("");
             }
         });
 

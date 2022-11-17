@@ -41,10 +41,6 @@ public class Message implements Serializable {
         this.isReceived = isReceived;
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/master
     public int getId() {
         return id;
     }
@@ -101,13 +97,6 @@ public class Message implements Serializable {
         isReceived = received;
     }
 
-     /* public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }*/
 
     @Override
     public String toString() {
