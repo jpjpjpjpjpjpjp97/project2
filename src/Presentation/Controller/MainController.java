@@ -99,8 +99,11 @@ public class MainController {
         mainWindow.setTitle("Usuario: " + this.username);
         mainWindow.setLocationRelativeTo(null);
         mainWindow.setVisible(true);
-        mainWindow.getPendingMessagesArea().setText(getPendingMessages(2).toString());
+        this.showMessages();
+    }
 
+    public void showMessages(){
+        mainWindow.getPendingMessagesArea().setText(getPendingMessages(2).toString());
     }
 
     public void startLoginWindow() {

@@ -162,6 +162,10 @@ public class Client implements Runnable{
             ArrayList<Message> pendingMessages = (ArrayList<Message>) inputStream.readObject();
             for (Message newMessage : pendingMessages) {
                 System.out.println(newMessage.toString());
+                outputStream.writeUTF("deleteMessage");
+                outputStream.flush();
+                outputStream.writeInt(newMessage.getId());
+                outputStream.flush();
             }
             return pendingMessages;
         } catch (IOException e) {

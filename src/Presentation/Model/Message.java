@@ -40,6 +40,15 @@ public class Message implements Serializable {
         this.isReceived = isReceived;
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }
@@ -88,9 +97,17 @@ public class Message implements Serializable {
         isReceived = received;
     }
 
+     /* public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }*/
+
     @Override
     public String toString() {
-        return "Message{" + "text='" + text + '\'' + ", created=" + created + ", isReceived=" + isReceived + '}';
+        return "Message{ id="+ id + " ,text='" + text + '\'' + ", created=" + created + ", isReceived=" + isReceived + '}' + "\n";
 
     }
 }
