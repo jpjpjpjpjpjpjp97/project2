@@ -69,8 +69,8 @@ public class MainController {
         return logic.getNewMessages(receiverId);
     }
 
-    public List<Message> getPendingMessages(int userId){
-        return logic.getPendingMessages(userId);
+    public List<Message> getPendingMessages(){
+        return logic.getPendingMessages(this.userId);
     }
 
     public boolean addMessage (String type, String text, int senderId, int receiverId) {
@@ -111,7 +111,8 @@ public class MainController {
     }
 
     public void showMessages(){
-        mainWindow.getPendingMessagesArea().setText(getPendingMessages(2).toString());
+        mainWindow.getPendingMessagesArea().setText(getPendingMessages().toString());
+        // Change to show all messages from the conversation
     }
 
     public void startLoginWindow() {

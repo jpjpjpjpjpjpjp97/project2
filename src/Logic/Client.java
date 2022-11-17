@@ -167,10 +167,8 @@ public class Client implements Runnable{
             ArrayList<Message> pendingMessages = (ArrayList<Message>) inputStream.readObject();
             for (Message newMessage : pendingMessages) {
                 System.out.println(newMessage.toString());
-                outputStream.writeUTF("deleteMessage");
-                outputStream.flush();
-                outputStream.writeInt(newMessage.getId());
-                outputStream.flush();
+                // SAVE TO JSON ON CORRECT CONTACT
+                this.deleteMessage(newMessage.getId());
             }
             return pendingMessages;
         } catch (IOException e) {
@@ -245,9 +243,6 @@ public class Client implements Runnable{
         return false;
     }
 
-
-
-
     public boolean updateMessage(int id , String text , int id_conversation) {
         try {
             outputStream.writeUTF("updateMessage");
@@ -272,7 +267,7 @@ public class Client implements Runnable{
         try {
             outputStream.writeUTF("deleteMessage");
             outputStream.flush();
-            outputStream.writeUTF(String.valueOf(id));
+            outputStream.writeInt(id);
             outputStream.flush();
 
             String receivedText = inputStream.readUTF();
@@ -295,6 +290,8 @@ public class Client implements Runnable{
             messageList = (ArrayList<Message>) inputStream.readObject();
             for (Message newMessage : messageList) {
                 System.out.println(newMessage.toString());
+                // SAVE TO JSON ON CORRECT CONTACT
+                this.deleteMessage(newMessage.getId());
             }
             return messageList;
         } catch (IOException | ClassNotFoundException e) {
