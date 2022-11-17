@@ -1,6 +1,7 @@
 package Logic;
 
 import Data.Data;
+import Presentation.Model.Contact;
 import Presentation.Model.Message;
 import Presentation.Model.User;
 
@@ -70,5 +71,17 @@ public class Logic {
 
     public void closeConnection(){
         client.closeConnection();
+    }
+
+    public int getIdForUsername(String username) {
+        return client.getIdForUsername(username);
+    }
+
+    public void addContact(int userId, int contactId, String contactUsername) {
+        client.addContact(userId, contactId, contactUsername);
+    }
+
+    public List<Contact> readContactList(int userId) {
+        return client.readContactList(userId);
     }
 }

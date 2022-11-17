@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 public class Message implements Serializable {
-    private String type;
     private int id;
+    private String type;
     private String text;
     private int senderId;
     private int receiverId;
@@ -13,6 +13,7 @@ public class Message implements Serializable {
     private boolean isReceived;
 
     public Message() {
+        this.id = 0;
         this.type = "individual";
         this.text = "";
         this.senderId = 0;
@@ -38,6 +39,14 @@ public class Message implements Serializable {
         this.receiverId = receiverId;
         this.created = created;
         this.isReceived = isReceived;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getType() {

@@ -1,6 +1,7 @@
 package Presentation.Controller;
 
 import Logic.Logic;
+import Presentation.Model.Contact;
 import Presentation.Model.Message;
 import Presentation.Model.User;
 import Presentation.View.LoginWindow;
@@ -52,6 +53,9 @@ public class MainController {
         return logic.deleteUser(id);
     }
 
+    public void addContact(int contactId, String contactUsername) {
+        logic.addContact(this.userId, contactId, contactUsername);
+    }
     //MESSAGES
     public List<Message> listMessages(){
         return logic.listMessages();
@@ -92,6 +96,10 @@ public class MainController {
         for (Message message : messagesList) {
             message.toString();
         }
+    }
+
+    public int getIdForUsername(String username) {
+        return logic.getIdForUsername(username);
     }
 
     public void startMainWindow() throws InterruptedException {
@@ -158,4 +166,7 @@ public class MainController {
         this.username = username;
     }
 
+    public List<Contact> readContactList() {
+        return logic.readContactList(this.userId);
+    }
 }

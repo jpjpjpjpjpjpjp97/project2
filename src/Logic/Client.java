@@ -1,6 +1,8 @@
 package Logic;
 
 import Data.Data;
+import Data.JSONSerializer;
+import Presentation.Model.Contact;
 import Presentation.Model.Message;
 import Presentation.Model.User;
 
@@ -18,6 +20,7 @@ public class Client implements Runnable{
     private static BufferedInputStream bufferedInputStream = null;
     private static boolean closed = false;
     private static Data data;
+    private static JSONSerializer jsonSerializer;
 
     int portNumber;
     String host;
@@ -26,6 +29,7 @@ public class Client implements Runnable{
         this.portNumber = 8080;
         this.host = "localhost";
         this.data = data;
+        this.jsonSerializer = new JSONSerializer();
         try{
             clientSocket = new Socket(host, portNumber);
             outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -108,6 +112,7 @@ public class Client implements Runnable{
             outputStream.flush();
 
             int userId = inputStream.readInt();
+            jsonSerializer.writeContactList(userId, new ArrayList<>());
             System.out.format("Registered Id: %s \n", userId);
             return userId;
         } catch (IOException e) {
@@ -170,6 +175,13 @@ public class Client implements Runnable{
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+
+    public void addContact(int userId, int contactId, String contactUsername) {
+        List<Contact> contactList = jsonSerializer.readContactList(userId);
+        contactList.add(new Contact(contactId, contactUsername, new ArrayList<>()));
+        jsonSerializer.writeContactList(userId, contactList);
     }
 
     //MESSAGE
@@ -298,4 +310,21 @@ public class Client implements Runnable{
         }
     }
 
+    public int getIdForUsername(String username) {
+        try {
+            outputStream.writeUTF("getIdForUsername");
+            outputStream.flush();
+            outputStream.writeUTF(username);
+            outputStream.flush();
+            return inputStream.readInt();
+
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+        return 0;
+    }
+
+    public List<Contact> readContactList(int userId) {
+        return jsonSerializer.readContactList(userId);
+    }
 }
