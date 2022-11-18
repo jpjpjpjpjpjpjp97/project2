@@ -55,9 +55,28 @@ public class Client implements Runnable{
             outputStream.writeUTF(password);
             outputStream.flush();
 
+
             int receivedId = inputStream.readInt();
             System.out.format("Authenticated Id: %s \n", receivedId);
             return receivedId;
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+        return 0;
+    }
+    public int isOnline(int id , String username){
+        try {
+            outputStream.writeUTF("isOnline");
+            outputStream.flush();
+            outputStream.writeInt(id);
+            outputStream.flush();
+            outputStream.writeUTF(username);
+            outputStream.flush();
+
+           int status = inputStream.readInt();
+            //System.out.format(status +" Client Id: %s \n", id);
+            return status;
+
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
         }

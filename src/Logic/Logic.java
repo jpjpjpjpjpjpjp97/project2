@@ -37,6 +37,10 @@ public class Logic {
         return client.listUsers();
     }
 
+    public int isOnline(int id , String username){
+        return client.isOnline(id , username);
+    }
+
     public List<User> filterUsers(String username){
         return client.filterUsers(username);
     }

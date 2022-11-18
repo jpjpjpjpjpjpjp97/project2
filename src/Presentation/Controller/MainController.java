@@ -61,6 +61,10 @@ public class MainController {
         return logic.listMessages();
     }
 
+    public int isOnline(int id , String name){
+        return logic.isOnline(id ,name);
+    }
+
     public List<Message> filterMessages(String text){
         return logic.filterMessages(text);
     }

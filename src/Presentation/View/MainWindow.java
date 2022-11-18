@@ -12,6 +12,8 @@ public class MainWindow extends JFrame {
     private JButton sendMessageButton;
     private JList contactList;
     DefaultListModel<String> contactListModel;
+
+    DefaultListModel<String> contactListModelAUX;
     private JTextArea messagesTextArea;
     private JTextField addContactTextField;
     private JButton addContactButton;
@@ -26,12 +28,16 @@ public class MainWindow extends JFrame {
     private JButton searchContactButton;
     private JLabel searchContactLabel;
     private Timer checkMessagesTimer;
+    private boolean searching = false;
+
 
     public MainWindow(MainController mainController) throws InterruptedException {
+
         this.mainController = mainController;
         this.setContentPane(this.mainPanel);
         this.setSize(1000, 600);
         checkMessagesTimer = null;
+        this.refreshContacts();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -69,15 +75,37 @@ public class MainWindow extends JFrame {
             }
         });
 
+        this.searchContactButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchText = searchContactTextField.getText();
+                if (searchText != ""){
+                    MainWindow.this.filterContact(searchText);
+                    searching = true;
+                }
+                else
+                    searching = false;
+
+            }
+
+        });
         checkMessagesTimer = new Timer(5000, event -> {
             try {
                 MainWindow.this.mainController.checkForMessages();
+
+                if(!searching)
+                  MainWindow.this.refreshContacts();
+                else
+                  MainWindow.this.filterContact(searchContactTextField.getText());
+
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
         checkMessagesTimer.start();
-        this.refreshContacts();
+
+
+
     }
 
     public JTextArea getPendingMessagesArea() {
@@ -90,13 +118,35 @@ public class MainWindow extends JFrame {
 
     private void refreshContacts() {
         this.contactListModel.removeAllElements();
+
         mainController.readContactList().forEach(contact -> {
-            this.contactListModel.addElement(contact.getUsername());
+            if(mainController.isOnline(contact.getUserId() , contact.getUsername()) == 1){
+                this.contactListModel.addElement(contact.getUsername()+" (Online +)");
+            } else
+                this.contactListModel.addElement(contact.getUsername()+" (Offline -)");
         });
     }
 
+
     private void createUIComponents() {
-        this.contactListModel = new DefaultListModel<>();
-        this.contactList = new JList<>(contactListModel);
+            this.contactListModel = new DefaultListModel<>();
+            this.contactList = new JList<>(contactListModel);
+    }
+
+    private void filterContact(String text) {
+        this.contactListModelAUX = new DefaultListModel<>();
+        mainController.readContactList().forEach(contact -> {
+            if(contact.getUsername().contains(text)) {
+
+                if(mainController.isOnline(contact.getUserId() , contact.getUsername()) == 1){
+                    this.contactListModelAUX.addElement(contact.getUsername()+" (Online +)");
+                } else
+                    this.contactListModelAUX.addElement(contact.getUsername()+" (Offline -)");
+            }
+        });
+        searching = true;
+        contactList.setModel(contactListModelAUX);
+
+
     }
 }

@@ -60,7 +60,7 @@ public class JSONSerializer {
         try (FileReader reader = new FileReader(String.valueOf(userId) + ".json")) {
             Object contactFile = jsonParser.parse(reader);
             JSONArray contactObjectList = (JSONArray) contactFile;
-            System.out.println(contactObjectList);
+           // System.out.println(contactObjectList);
             contactObjectList.forEach(contact -> {
                 contactList.add(this.parseContactObject((JSONObject) contact));
             });
