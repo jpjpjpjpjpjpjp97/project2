@@ -49,7 +49,7 @@ public class JSONSerializer {
         messageObject.put("senderId", message.getSenderId());
         messageObject.put("receiverId", message.getReceiverId());
         messageObject.put("text", message.getText());
-        messageObject.put("created", message.getCreated());
+        messageObject.put("created", message.getCreated().toString());
         messageObject.put("isReceived", message.isReceived());
         return messageObject;
     }
@@ -96,8 +96,27 @@ public class JSONSerializer {
         int messageSenderId = ((Long) message.get("senderId")).intValue();
         int messageReceiverId = ((Long) message.get("receiverId")).intValue();
         String messageText = (String) message.get("text");
-        Timestamp messageCreated = (Timestamp) message.get("created");
+        Timestamp messageCreated = Timestamp.valueOf((String) message.get("created"));
         Boolean messageReceived = (Boolean) message.get("isReceived");
         return new Message(messageType, messageId, messageText, messageSenderId, messageReceiverId, messageCreated, messageReceived);
+    }
+
+    public void addReceivedMessage(int userId, Message newMessage) {
+        List<Contact> contactList = this.readContactList(userId);
+        contactList.forEach(contact -> {
+            if (contact.getUserId() == newMessage.getSenderId()){
+                contact.getConversation().add(newMessage);
+            }
+        });
+        this.writeContactList(userId, contactList);
+    }
+    public void addSentMessage(int userId, Message newMessage) {
+        List<Contact> contactList = this.readContactList(userId);
+        contactList.forEach(contact -> {
+            if (contact.getUserId() == newMessage.getReceiverId()){
+                contact.getConversation().add(newMessage);
+            }
+        });
+        this.writeContactList(userId, contactList);
     }
 }

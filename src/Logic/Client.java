@@ -186,7 +186,7 @@ public class Client implements Runnable{
             ArrayList<Message> pendingMessages = (ArrayList<Message>) inputStream.readObject();
             for (Message newMessage : pendingMessages) {
                 System.out.println(newMessage.toString());
-                // SAVE TO JSON ON CORRECT CONTACT
+                jsonSerializer.addReceivedMessage(userId, newMessage);
                 this.deleteMessage(newMessage.getId());
             }
             return pendingMessages;
@@ -255,6 +255,7 @@ public class Client implements Runnable{
 
             String receivedText = inputStream.readUTF();
             System.out.format("Add Message: %s \n", receivedText);
+            jsonSerializer.addSentMessage(senderId, newMessage);
             return true;
         } catch (IOException e) {
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
@@ -309,7 +310,7 @@ public class Client implements Runnable{
             messageList = (ArrayList<Message>) inputStream.readObject();
             for (Message newMessage : messageList) {
                 System.out.println(newMessage.toString());
-                // SAVE TO JSON ON CORRECT CONTACT
+                jsonSerializer.addReceivedMessage(receiverId, newMessage);
                 this.deleteMessage(newMessage.getId());
             }
             return messageList;

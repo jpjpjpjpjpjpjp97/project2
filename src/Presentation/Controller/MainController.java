@@ -111,12 +111,6 @@ public class MainController {
         mainWindow.setTitle("Usuario: " + this.username);
         mainWindow.setLocationRelativeTo(null);
         mainWindow.setVisible(true);
-        this.showMessages();
-    }
-
-    public void showMessages(){
-        mainWindow.getPendingMessagesArea().setText(getPendingMessages().toString());
-        // Change to show all messages from the conversation
     }
 
     public void startLoginWindow() {
