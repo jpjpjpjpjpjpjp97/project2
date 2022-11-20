@@ -45,11 +45,16 @@ public class LoginWindow extends JFrame{
         this.registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (mainController.registerUser(usernameTextField.getText(), String.valueOf(passwordField.getPassword())) != 0){
-                    errorLabel.setText("Registro exitoso! Inicia sesión.");
+                if(!String.valueOf(passwordField.getPassword()).equals("")) {
+                    if (mainController.registerUser(usernameTextField.getText(), String.valueOf(passwordField.getPassword())) != 0) {
+
+                        errorLabel.setText("Registro exitoso! Inicia sesión.");
+                    } else {
+                        errorLabel.setText("Usuario no disponible.");
+                    }
                 }
-                else{
-                    errorLabel.setText("Usuario no disponible.");
+                else {
+                    errorLabel.setText("Debe ingresar una contraseña.");
                 }
             }
         });
