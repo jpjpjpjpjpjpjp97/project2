@@ -192,7 +192,7 @@ public class MainWindow extends JFrame {
         }
         StyleConstants.setBold(styleAttributes, true);
         try{
-            doc.insertString(doc.getLength(), message.getText() + " " + message.getCreated(), styleAttributes );
+            doc.insertString(doc.getLength(), message.getText() + " \n" + message.getCreated(), styleAttributes );
             doc.setParagraphAttributes(0, doc.getLength(), styleAttributes, false);
         }
         catch(Exception e) {
