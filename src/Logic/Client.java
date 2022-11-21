@@ -186,7 +186,7 @@ public class Client implements Runnable{
             ArrayList<Message> pendingMessages = (ArrayList<Message>) inputStream.readObject();
             for (Message newMessage : pendingMessages) {
                 System.out.println(newMessage.toString());
-                jsonSerializer.addReceivedMessage(userId, newMessage);
+                jsonSerializer.addReceivedMessage(userId, newMessage, this, 0);
                 this.deleteMessage(newMessage.getId());
             }
             return pendingMessages;
@@ -310,7 +310,7 @@ public class Client implements Runnable{
             messageList = (ArrayList<Message>) inputStream.readObject();
             for (Message newMessage : messageList) {
                 System.out.println(newMessage.toString());
-                jsonSerializer.addReceivedMessage(receiverId, newMessage);
+                jsonSerializer.addReceivedMessage(receiverId, newMessage, this, 0);
                 this.deleteMessage(newMessage.getId());
             }
             return messageList;
@@ -343,6 +343,20 @@ public class Client implements Runnable{
             System.err.println("No Server found. Please ensure that the Server program is running and try again.");
         }
         return 0;
+    }
+
+    public String getUsernameForId(int id) {
+        try {
+            outputStream.writeUTF("getUsernameForId");
+            outputStream.flush();
+            outputStream.writeInt(id);
+            outputStream.flush();
+            return inputStream.readUTF();
+
+        } catch (IOException e) {
+            System.err.println("No Server found. Please ensure that the Server program is running and try again.");
+        }
+        return "";
     }
 
     public List<Contact> readContactList(int userId) {

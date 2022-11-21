@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87d5b3f3-9361-42bb-b00c-c983804bec3c" name="Changes" comment="Fix/&#10;Delete messages&#10;Pending:&#10;SAVE TO JSON ON CORRECT CONTACT&#10;Change to show all messages from the conversation">
+    <list default="true" id="87d5b3f3-9361-42bb-b00c-c983804bec3c" name="Changes" comment="Add/&#10;Chat box">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Data/JSONSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/JSONSerializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Logic/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presentation/Controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presentation/Controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presentation/View/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presentation/View/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presentation/View/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presentation/View/MainWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668710900471</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Add/&#10;Chat box">
+      <created>1668787323903</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668787323903</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -161,6 +166,7 @@
     <MESSAGE value="Add/&#10;Register and Authenticate functions&#10;LoginWindow and MainWindow&#10;Get new messages every 5 seconds" />
     <MESSAGE value="Merged changes" />
     <MESSAGE value="Fix/&#10;Delete messages&#10;Pending:&#10;SAVE TO JSON ON CORRECT CONTACT&#10;Change to show all messages from the conversation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix/&#10;Delete messages&#10;Pending:&#10;SAVE TO JSON ON CORRECT CONTACT&#10;Change to show all messages from the conversation" />
+    <MESSAGE value="Add/&#10;Chat box" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add/&#10;Chat box" />
   </component>
 </project>

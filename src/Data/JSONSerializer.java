@@ -1,5 +1,6 @@
 package Data;
 
+import Logic.Client;
 import Presentation.Model.Contact;
 
 import java.io.FileNotFoundException;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import Presentation.Model.Message;
 import org.json.simple.JSONArray;
@@ -66,14 +68,27 @@ public class JSONSerializer {
             });
         } catch (FileNotFoundException e) {
             try (FileWriter file = new FileWriter(String.valueOf(userId) + ".json")) {
+                file.write(new JSONArray().toJSONString());
                 file.flush();
             } catch (IOException error) {
                 error.printStackTrace();
             }
             e.printStackTrace();
         } catch (IOException e) {
+            try (FileWriter file = new FileWriter(String.valueOf(userId) + ".json")) {
+                file.write(new JSONArray().toJSONString());
+                file.flush();
+            } catch (IOException error) {
+                error.printStackTrace();
+            }
             e.printStackTrace();
         } catch (ParseException e) {
+            try (FileWriter file = new FileWriter(String.valueOf(userId) + ".json")) {
+                file.write(new JSONArray().toJSONString());
+                file.flush();
+            } catch (IOException error) {
+                error.printStackTrace();
+            }
             e.printStackTrace();
         }
         return  contactList;
@@ -101,13 +116,27 @@ public class JSONSerializer {
         return new Message(messageType, messageId, messageText, messageSenderId, messageReceiverId, messageCreated, messageReceived);
     }
 
-    public void addReceivedMessage(int userId, Message newMessage) {
+    public void addReceivedMessage(int userId, Message newMessage, Client client, int recursionTimes) {
         List<Contact> contactList = this.readContactList(userId);
+        AtomicBoolean written = new AtomicBoolean(false);
         contactList.forEach(contact -> {
             if (contact.getUserId() == newMessage.getSenderId()){
                 contact.getConversation().add(newMessage);
+                written.set(true);
             }
         });
+        if (!written.get()){
+            if (recursionTimes >= 2) {
+                throw new InternalError("Recursion counter exceeded");
+            }
+            else {
+                String newContactUsername = client.getUsernameForId(newMessage.getSenderId());
+                contactList.add(new Contact(newMessage.getSenderId(), newContactUsername, new ArrayList<>()));
+                this.writeContactList(userId, contactList);
+                this.addReceivedMessage(userId, newMessage, client, recursionTimes + 1);
+                return;
+            }
+        }
         this.writeContactList(userId, contactList);
     }
     public void addSentMessage(int userId, Message newMessage) {

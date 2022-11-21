@@ -229,7 +229,7 @@ public class MainWindow extends JFrame {
     private void createUIComponents() {
         this.contactListModel = new DefaultListModel<>();
         this.contactList = new JList<>(contactListModel);
-        this.contactList.setMaximumSize(new Dimension(50, 1000));
+        this.contactList.setMaximumSize(new Dimension(50, 600));
         this.messagesPanel = new JPanel();
         this.messagesPanel.setLayout(new BoxLayout(messagesPanel, BoxLayout.Y_AXIS));
     }
