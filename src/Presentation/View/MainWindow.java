@@ -22,6 +22,7 @@ public class MainWindow extends JFrame {
     private JTextField messageTextField;
     private JButton sendMessageButton;
     private JList contactList;
+    private  List<String> contactsWithNewMessages;
     DefaultListModel<String> contactListModel;
     DefaultListModel<String> contactListModelAUX;
     private JTextArea messagesTextArea;
@@ -49,6 +50,7 @@ public class MainWindow extends JFrame {
         this.setContentPane(this.mainPanel);
         this.setSize(1000, 600);
         checkMessagesTimer = null;
+        this.contactsWithNewMessages = new ArrayList<>();
         this.refreshContacts();
         this.currentContactId = 0;
         this.currentContactUsername = "";
@@ -61,6 +63,7 @@ public class MainWindow extends JFrame {
                 if (checkMessagesTimer != null) {
                     checkMessagesTimer.stop();
                 }
+                System.exit(0);
                 super.windowClosing(e);
             }
         });
@@ -164,6 +167,7 @@ public class MainWindow extends JFrame {
         mainController.readContactList().forEach(contact -> {
             if (contact.getUsername().equals(username)){
                 this.refreshConversation(contact);
+                contactsWithNewMessages.remove(contact.getUsername());
             }
         });
     }
@@ -180,20 +184,29 @@ public class MainWindow extends JFrame {
         JTextPane textPane = new JTextPane();
         textPane.setEditable(false);
         StyledDocument doc = textPane.getStyledDocument();
-        SimpleAttributeSet styleAttributes = new SimpleAttributeSet();
+        SimpleAttributeSet messageStyleAttributes = new SimpleAttributeSet();
+        SimpleAttributeSet timestampStyleAttributes = new SimpleAttributeSet();
         if (message.isReceived()){
-            StyleConstants.setForeground(styleAttributes, Color.DARK_GRAY);
-            StyleConstants.setBackground(styleAttributes, Color.LIGHT_GRAY);
+            StyleConstants.setForeground(messageStyleAttributes, Color.DARK_GRAY);
+            StyleConstants.setBackground(messageStyleAttributes, Color.LIGHT_GRAY);
+            StyleConstants.setForeground(timestampStyleAttributes, Color.DARK_GRAY);
+            StyleConstants.setBackground(timestampStyleAttributes, Color.LIGHT_GRAY);
         }
         else {
-            StyleConstants.setAlignment(styleAttributes, StyleConstants.ALIGN_RIGHT);
-            StyleConstants.setForeground(styleAttributes, Color.DARK_GRAY);
-            StyleConstants.setBackground(styleAttributes, Color.GREEN);
+            StyleConstants.setAlignment(messageStyleAttributes, StyleConstants.ALIGN_RIGHT);
+            StyleConstants.setForeground(messageStyleAttributes, Color.DARK_GRAY);
+            StyleConstants.setBackground(messageStyleAttributes, Color.GREEN);
+            StyleConstants.setAlignment(timestampStyleAttributes, StyleConstants.ALIGN_RIGHT);
+            StyleConstants.setForeground(timestampStyleAttributes, Color.DARK_GRAY);
+            StyleConstants.setBackground(timestampStyleAttributes, Color.GREEN);
         }
-        StyleConstants.setBold(styleAttributes, true);
+        StyleConstants.setFontSize(messageStyleAttributes,12);
+        StyleConstants.setBold(messageStyleAttributes, true);
+        StyleConstants.setFontSize(timestampStyleAttributes,8);
         try{
-            doc.insertString(doc.getLength(), message.getText() + " \n" + message.getCreated(), styleAttributes );
-            doc.setParagraphAttributes(0, doc.getLength(), styleAttributes, false);
+            doc.insertString(doc.getLength(), message.getText() + "\n", messageStyleAttributes );
+            doc.insertString(doc.getLength(), message.getCreated().toString().split("\\.")[0], messageStyleAttributes );
+            doc.setParagraphAttributes(0, doc.getLength(), messageStyleAttributes, false);
         }
         catch(Exception e) {
             System.out.println("Error: "+ e.toString());
@@ -206,9 +219,20 @@ public class MainWindow extends JFrame {
 
         mainController.readContactList().forEach(contact -> {
             if(mainController.isOnline(contact.getUserId() , contact.getUsername()) == 1){
-                this.contactListModel.addElement(contact.getUsername()+" (Online +)");
-            } else
-                this.contactListModel.addElement(contact.getUsername()+" (Offline -)");
+                if (contactsWithNewMessages.contains(contact.getUsername())){
+                    this.contactListModel.addElement(contact.getUsername()+" (Online +) **");
+                }
+                else {
+                    this.contactListModel.addElement(contact.getUsername()+" (Online +)");
+                }
+            } else {
+                if (contactsWithNewMessages.contains(contact.getUsername())){
+                    this.contactListModel.addElement(contact.getUsername() + " (Offline -) **");
+                }
+                else {
+                    this.contactListModel.addElement(contact.getUsername() + " (Offline -)");
+                }
+            }
         });
     }
 
@@ -224,6 +248,14 @@ public class MainWindow extends JFrame {
         });
         contactListModel.removeAllElements();
         contactListModel.addAll(elements);
+    }
+
+    public ArrayList<String> getContactsWithNewMessages() {
+        return (ArrayList<String>) contactsWithNewMessages;
+    }
+
+    public void setContactsWithNewMessages(List<String> contactsWithNewMessages) {
+        this.contactsWithNewMessages = contactsWithNewMessages;
     }
 
     private void createUIComponents() {

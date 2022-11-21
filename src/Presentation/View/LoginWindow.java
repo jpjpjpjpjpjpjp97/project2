@@ -5,6 +5,8 @@ import Presentation.Controller.MainController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class LoginWindow extends JFrame{
     private MainController mainController;
@@ -25,6 +27,14 @@ public class LoginWindow extends JFrame{
         this.setContentPane(this.mainPanel);
         this.setSize(1000, 400);
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mainController.closeConnection();
+                System.exit(0);
+                super.windowClosing(e);
+            }
+        });
         this.loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -94,11 +94,22 @@ public class MainController {
 
     public void checkForMessages() throws InterruptedException {
         ArrayList<Message> messagesList = new ArrayList<>();
+        ArrayList<String> contactsWithNewMessages = this.mainWindow.getContactsWithNewMessages();
+        boolean added = false;
         System.out.println("Checking for new messages...");
         messagesList.clear();
         messagesList = (ArrayList<Message>) this.getNewMessages(this.userId);
         for (Message message : messagesList) {
             message.toString();
+            for (String contactUsername : contactsWithNewMessages) {
+                if(message.getSenderId() == getIdForUsername(contactUsername)){
+                    added = true;
+                }
+            }
+            if (!added){
+                contactsWithNewMessages.add(this.logic.getUsernameForId(message.getSenderId()));
+                this.mainWindow.setContactsWithNewMessages(contactsWithNewMessages);
+            }
         }
     }
 

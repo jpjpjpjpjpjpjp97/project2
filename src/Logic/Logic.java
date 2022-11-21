@@ -80,6 +80,9 @@ public class Logic {
     public int getIdForUsername(String username) {
         return client.getIdForUsername(username);
     }
+    public String getUsernameForId(int senderId) {
+        return client.getUsernameForId(senderId);
+    }
 
     public void addContact(int userId, int contactId, String contactUsername) {
         client.addContact(userId, contactId, contactUsername);
@@ -88,4 +91,5 @@ public class Logic {
     public List<Contact> readContactList(int userId) {
         return client.readContactList(userId);
     }
+
 }
