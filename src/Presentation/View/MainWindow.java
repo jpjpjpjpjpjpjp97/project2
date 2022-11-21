@@ -247,7 +247,9 @@ public class MainWindow extends JFrame {
             }
         });
         contactListModel.removeAllElements();
-        contactListModel.addAll(elements);
+        for (String element : elements) {
+            contactListModel.addElement(element);
+        }
     }
 
     public ArrayList<String> getContactsWithNewMessages() {
